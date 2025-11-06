@@ -22,7 +22,7 @@ model User {
   likes     Like[]       // User likes
   ratings   BlogRating[] // User ratings
 
-  // Optionally, you can add following/followers (self-relation) here later if needed
+ 
 }
 
 model Blog {
@@ -30,7 +30,7 @@ model Blog {
   userId    Int                                          // Foreign key to User
   title     String
   content   String
-  tagId     Int?                                         // TagId (optional or make a Tag table if needed)
+  tagId     Int?                                         
 
   user      User      @relation(fields: [userId], references: [id])
   comments  Comment[]

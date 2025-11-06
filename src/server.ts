@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/errorHandler";
 import authRouter from "./routes/auth";
 import blogRouter from "./routes/blog";
+import userRouter from "./routes/user";
+import commentRouter from "./routes/comment";
+import searchRouter from "./routes/search";
 
 dotenv.config();
 const app = express();
@@ -38,6 +41,9 @@ app.get("/health", async (req: Request, res: Response) => {
 // Mount routers with version prefix:
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/blogs", blogRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/comments", commentRouter);
+app.use("/api/v1/search", searchRouter);
 
 app.use(errorHandler);
 

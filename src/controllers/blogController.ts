@@ -68,11 +68,6 @@ export async function getAllBlogs(
   }
 }
 
-/**
- * Get a single blog by ID
- * GET /api/v1/blogs/:id
- * Public endpoint
- */
 export async function getBlogById(
   req: AuthRequest,
   res: Response
@@ -99,11 +94,6 @@ export async function getBlogById(
   }
 }
 
-/**
- * Update a blog post
- * PUT /api/v1/blogs/:id
- * Authentication required - Only blog author can update
- */
 export async function updateBlog(
   req: AuthRequest,
   res: Response
@@ -151,11 +141,6 @@ export async function updateBlog(
   }
 }
 
-/**
- * Delete a blog post
- * DELETE /api/v1/blogs/:id
- * Authentication required - Only blog author or admin can delete
- */
 export async function deleteBlog(
   req: AuthRequest,
   res: Response
