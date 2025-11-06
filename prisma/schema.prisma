@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id        Int       @id @default(autoincrement())  // UserID
+  username  String    @unique
+  email     String    @unique
+  password  String
+  name      String?
+  bio       String?
+  role      String    @default("User")               // Role: Admin or User
+
+  blogs     Blog[]       // One user can have many blogs
+  comments  Comment[]    // User comments
+  likes     Like[]       // User likes
+  ratings   BlogRating[] // User ratings
+
+  // Optionally, you can add following/followers (self-relation) here later if needed
+}
+
+model Blog {
+  id        Int       @id @default(autoincrement())  // BlogID
+  userId    Int                                          // Foreign key to User
+  title     String
+  content   String
+  tagId     Int?                                         // TagId (optional or make a Tag table if needed)
+
+  user      User      @relation(fields: [userId], references: [id])
+  comments  Comment[]
+  likes     Like[]
+  ratings   BlogRating[]
+}
+
+model BlogRating {
+  id          Int   @id @default(autoincrement())    // RatingID
+  userId      Int
+  blogId      Int
+  ratingValue Int                                       // 1-5
+
+  user        User   @relation(fields: [userId], references: [id])
+  blog        Blog   @relation(fields: [blogId], references: [id])
+
+  @@unique([userId, blogId])   // One user can rate a blog only once
+}
+
+model Comment {
+  id       Int    @id @default(autoincrement())       // CommentID
+  userId   Int
+  blogId   Int
+  content  String
+
+  user     User   @relation(fields: [userId], references: [id])
+  blog     Blog   @relation(fields: [blogId], references: [id])
+}
+
+model Like {
+  id      Int    @id @default(autoincrement())        // LikeID
+  userId  Int
+  blogId  Int
+
+  user    User   @relation(fields: [userId], references: [id])
+  blog    Blog   @relation(fields: [blogId], references: [id])
+
+  @@unique([userId, blogId])  // One user can like a blog only once
+}
