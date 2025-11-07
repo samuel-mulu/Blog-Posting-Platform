@@ -16,7 +16,7 @@ router.get("/:id/likes", likeController.getBlogLikes); // Get all likes for a bl
 
 // Protected routes - require authentication
 router.post("/", authenticateJWT, blogController.createBlog); // Create new blog
-router.put("/:id", authenticateJWT, blogController.updateBlog); // Update blog
+router.patch("/:id", authenticateJWT, blogController.updateBlog); // Update blog
 router.delete("/:id", authenticateJWT, blogController.deleteBlog); // Delete blog
 
 // Rating routes (protected)

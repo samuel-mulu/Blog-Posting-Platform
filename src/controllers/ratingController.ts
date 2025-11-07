@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import * as ratingService from "../services/ratingService";
+import { notifyNewRating } from "../socket/events/notificationEvents";
 
 /**
  * Rate a blog (create or update rating)
@@ -30,6 +31,12 @@ export async function rateBlog(req: AuthRequest, res: Response): Promise<void> {
     }
 
     const rating = await ratingService.rateBlog(userId, blogId, ratingValue);
+
+    // Emit real-time notification
+    const io = req.app.get("io");
+    if (io) {
+      notifyNewRating(io, blogId, rating);
+    }
 
     res.status(201).json({
       message: "Blog rated successfully",

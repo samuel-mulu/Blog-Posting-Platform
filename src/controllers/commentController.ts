@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import * as commentService from "../services/commentService";
+import { notifyNewComment } from "../socket/events/notificationEvents";
 
 /**
  * Create a comment on a blog
@@ -33,6 +34,12 @@ export async function createComment(
     }
 
     const comment = await commentService.createComment(userId, blogId, content);
+
+    // Emit real-time notification
+    const io = req.app.get("io");
+    if (io) {
+      notifyNewComment(io, blogId, comment);
+    }
 
     res.status(201).json({
       message: "Comment created successfully",

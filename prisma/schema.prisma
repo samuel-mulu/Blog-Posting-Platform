@@ -21,8 +21,10 @@ model User {
   comments  Comment[]    // User comments
   likes     Like[]       // User likes
   ratings   BlogRating[] // User ratings
-
- 
+  
+  // Follow relationships
+  followers Follow[] @relation("UserFollowers")
+  following Follow[] @relation("UserFollowing")
 }
 
 model Blog {
@@ -69,4 +71,18 @@ model Like {
   blog    Blog   @relation(fields: [blogId], references: [id])
 
   @@unique([userId, blogId])  // One user can like a blog only once
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }

@@ -26,11 +26,6 @@ export async function searchBlogs(req: Request, res: Response): Promise<void> {
   }
 }
 
-/**
- * Search blogs by tag ID
- * GET /api/v1/search/blogs/tag/:tagId?page=1&limit=10
- * Public endpoint
- */
 export async function searchBlogsByTag(
   req: Request,
   res: Response
@@ -59,11 +54,6 @@ export async function searchBlogsByTag(
   }
 }
 
-/**
- * Search users by query (username, name, email)
- * GET /api/v1/search/users?q=query&page=1&limit=10
- * Public endpoint
- */
 export async function searchUsers(req: Request, res: Response): Promise<void> {
   try {
     const query = req.query.q as string;
@@ -89,11 +79,6 @@ export async function searchUsers(req: Request, res: Response): Promise<void> {
   }
 }
 
-/**
- * Search both blogs and users
- * GET /api/v1/search?q=query
- * Public endpoint
- */
 export async function searchAll(req: Request, res: Response): Promise<void> {
   try {
     const query = req.query.q as string;

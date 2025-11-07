@@ -84,11 +84,6 @@ export async function getAllBlogs(page: number = 1, limit: number = 10) {
   };
 }
 
-/**
- * Get a single blog by ID
- * @param blogId - ID of the blog
- * @returns Blog with user, comments, and ratings
- */
 export async function getBlogById(blogId: number) {
   const blog = await prisma.blog.findUnique({
     where: { id: blogId },
@@ -152,13 +147,6 @@ export async function getBlogById(blogId: number) {
   };
 }
 
-/**
- * Update a blog post
- * @param blogId - ID of the blog to update
- * @param userId - ID of the user making the update
- * @param data - Updated blog data
- * @returns Updated blog
- */
 export async function updateBlog(
   blogId: number,
   userId: number,
@@ -199,12 +187,6 @@ export async function updateBlog(
   return updatedBlog;
 }
 
-/**
- * Delete a blog post
- * @param blogId - ID of the blog to delete
- * @param userId - ID of the user requesting deletion
- * @param userRole - Role of the user (Admin can delete any blog)
- */
 export async function deleteBlog(
   blogId: number,
   userId: number,

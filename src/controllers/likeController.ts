@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import * as likeService from "../services/likeService";
+import { notifyNewLike } from "../socket/events/notificationEvents";
 
 /**
  * Toggle like on a blog (like/unlike)
@@ -26,6 +27,12 @@ export async function toggleLike(
     }
 
     const result = await likeService.toggleLike(userId, blogId);
+
+    // Emit real-time notification
+    const io = req.app.get("io");
+    if (io) {
+      notifyNewLike(io, blogId, result);
+    }
 
     res.json(result);
   } catch (err) {
